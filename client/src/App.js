@@ -20,7 +20,7 @@ function App() {
 
 
   useEffect(() => {
-    movieServices.getAll().then((response) => {
+    movieServices.getAll().then(response => {
       setMovieList(response.data);
     });
   }, []);
@@ -85,8 +85,9 @@ function App() {
 
       <div>
         {movieList.map((val, i) => {
+          console.log("movies:  ", i)
           return (
-            <div className="card">
+            <div className="card" key={val.mname+Math.random()}>
               <CardDisplay val={val}
                 i={i}
                 updateReview={updateReview} reviewChangeHandle={reviewChangeHandle}
@@ -96,7 +97,6 @@ function App() {
           )
         })}
       </div>
-
     </div>
   );
 }

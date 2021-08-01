@@ -6,7 +6,7 @@ const mysql = require('mysql');
 const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: `${process.env.REACT_APP_PASSWORD}`,
+    password: 'password',
     database: 'databasemovie'
 });
 

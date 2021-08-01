@@ -13,11 +13,12 @@ const StarRate = (props) => {
             {[...Array(5)].map((star, i) => {
                 const starValue = i + 1;
                 return (
-                    <div>
+                    <div key={starValue + Math.random()}>
                         <label>
                             <input
                                 type="radio"
                                 name="rating"
+                               
                                 value={starValue}
                                 onClick={() => {
                                     setRateState(starValue);
@@ -26,6 +27,7 @@ const StarRate = (props) => {
                             />
                             <FaStar
                                 className="star"
+                                
                                 size={20}
                                 color={starValue <= (hover || rateState) ? "#ffc107" : "#e4e5e9"}
                                 onMouseEnter={() => setHover(starValue)}
