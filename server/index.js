@@ -1,15 +1,10 @@
 const express = require('express');
+const db = require('./config/db');
 const cors = require('cors');
 const app = express();
-const mysql = require('mysql');
 
-const db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'password',
-    database: 'databasemovie'
-});
 
+const PORT = 3001;
 //to relax cross-origin HTTP request
 app.use(cors());
 // to recognize JSON object
@@ -55,7 +50,10 @@ app.put('/api/update', (req, res) => {
     });
 });
 
-app.listen(3001, () => {
+/*app.listen(3001, () => {
     console.log("running 3001");
-});
+});*/
 
+app.listen(process.env.PORT || PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
