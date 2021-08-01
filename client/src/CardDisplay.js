@@ -4,6 +4,8 @@ import StarView from './StarView';
 const CardDisplay = (props) => {
   console.log("val", props.val)
   return (
+    <div>
+      
     <div key={props.val.id} className='cardDisplayCss'>
       <h1>{props.val.mname}</h1>
       <p>{props.val.mreview}</p>
@@ -18,6 +20,8 @@ const CardDisplay = (props) => {
         <Button buttonName='Delete'
           buttonSubmit={() => { props.deleteReview(props.val.mname) }} />
       </div>
+    </div>
+
     </div>
   )
 }

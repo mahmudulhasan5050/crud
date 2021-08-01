@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
 import './App.css';
+import movieServices from './services/movieServices';
 import MovieInput from './MovieInput';
 import CardDisplay from './CardDisplay';
 
@@ -20,18 +20,18 @@ function App() {
 
 
   useEffect(() => {
-    Axios.get("http://localhost:3001/api/get").then((response) => {
+    movieServices.getAll().then((response) => {
       setMovieList(response.data);
     });
   }, []);
 
   const submitReview = () => {
-    Axios.post("http://localhost:3001/api/insert", {
+    const obj = {
       movieName: movieName,
       movieReview: review,
       movieRating: rateMovie
-
-    });
+    }
+    movieServices.createReview(obj);
 
     setMovieList([...movieList,
     { mname: movieName, mreview: review, rating: rateMovie }
@@ -39,22 +39,23 @@ function App() {
     setMovieName("");
     setReview("");
     setRateMovie(null);
-    
+
     setResetFormMovie(resetFormMovie + 1);
-    setResetFormReview(resetFormReview+1);
+    setResetFormReview(resetFormReview + 1);
     setResetStar(resetStar + 1);
   };
 
   const deleteReview = (movie) => {
-    Axios.delete(`http://localhost:3001/api/delete/${movie}`);
+    movieServices.deleteMovie(movie);
   }
 
   const updateReview = (movie) => {
     if (newReview !== "") {
-      Axios.put("http://localhost:3001/api/update", {
+      const objUpdate = {
         movieName: movie,
         movieReview: newReview
-      });
+      }
+      movieServices.updateReview(objUpdate);
     }
     setNewReview("");
   }
@@ -62,12 +63,12 @@ function App() {
   const ratingClicked = (rate) => {
     setRateMovie(rate);
   };
+  const getValue = (e) => e.target.value;
+  const nameHandle = (e) => setMovieName(getValue(e));
 
-  const nameHandle = (e) => setMovieName(e.target.value);
+  const reviewHandle = (e) => setReview(getValue(e));
 
-  const reviewHandle = (e) => setReview(e.target.value);
-
-  const reviewChangeHandle = (e) => setNewReview(e.target.value)
+  const reviewChangeHandle = (e) => setNewReview(getValue(e));
 
   return (
     <div className="App">
@@ -78,9 +79,9 @@ function App() {
         reviewHandle={reviewHandle}
         ratingClicked={ratingClicked}
         submitReview={submitReview}
-        resetFormMovie ={resetFormMovie}
-        resetFormReview = {resetFormReview}
-        resetStar ={resetStar} />
+        resetFormMovie={resetFormMovie}
+        resetFormReview={resetFormReview}
+        resetStar={resetStar} />
 
       <div>
         {movieList.map((val, i) => {
